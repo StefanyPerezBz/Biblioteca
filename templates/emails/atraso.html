@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 style="color:#B00020">⚠️ Atraso de Devolución</h2>
+<p>Hola {{ usuario_nombre }},</p>
+<p>El préstamo de <strong>"{{ libro_titulo }}"</strong> está atrasado
+ ({{ dias_atraso }} día(s)). Fecha prevista: <strong>{{ fecha_prevista }}</strong>.</p>
+<div class="info-box">
+  Por favor realiza la devolución lo antes posible. Si ya lo hiciste, ignora este mensaje.
+</div>
+<p>Atentamente,<br>Biblioteca UNT</p>
+{% endblock %}

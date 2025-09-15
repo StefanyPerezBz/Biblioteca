@@ -1,0 +1,22 @@
+<!-- templates/emails/prestamo_confirmacion.html - Confirmación de préstamo -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Confirmación de Préstamo</h2>
+<p>Estimado/a {{ usuario_nombre }},</p>
+
+<p>Le confirmamos que se ha registrado el préstamo del libro <strong>"{{ libro_titulo }}"</strong>.</p>
+
+<div class="info-box">
+    <p><strong>Fecha de préstamo:</strong> {{ fecha_prestamo }}</p>
+    <p><strong>Fecha estimada de devolución:</strong> {{ fecha_devolucion }}</p>
+    <p><strong>Estado:</strong> Activo</p>
+</div>
+
+<p>Recuerde devolver el libro a tiempo para evitar sanciones. Puede renovar el préstamo desde su panel de usuario si no hay reservas pendientes para este libro.</p>
+
+<p>Si tiene alguna pregunta o necesita asistencia, no dude en contactarnos.</p>
+
+<p>Atentamente,<br>
+El equipo de la Biblioteca</p>
+{% endblock %}

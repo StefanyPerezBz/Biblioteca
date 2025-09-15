@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Recordatorio de Devolución</h2>
+<p>Hola {{ usuario_nombre }},</p>
+<p>El préstamo del libro <strong>"{{ libro_titulo }}"</strong> vence el <strong>{{ fecha_devolucion }}</strong>
+ (en {{ dias_restantes }} día(s)).</p>
+<div class="info-box">
+  Por favor devuelve o renueva a tiempo para evitar sanciones. ¡Gracias por tu puntualidad!
+</div>
+<p>Atentamente,<br>Biblioteca UNT</p>
+{% endblock %}

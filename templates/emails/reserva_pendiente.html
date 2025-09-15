@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Reserva Pendiente</h2>
+<p>Hola {{ usuario_nombre }},</p>
+<p>Tu reserva del libro <strong>"{{ libro_titulo }}"</strong> está pendiente desde
+ <strong>{{ fecha_reserva }}</strong> ({{ dias_espera }} día(s)).</p>
+<div class="info-box">
+  Acércate a recogerla o actualiza tu reserva. Si ya lo hiciste, ignora este mensaje.
+</div>
+<p>Atentamente,<br>Biblioteca UNT</p>
+{% endblock %}

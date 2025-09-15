@@ -1,0 +1,264 @@
+/* static/css/styles.css - Estilos personalizados mejorados */
+
+/* Estilos generales */
+.main-header {
+    color: #1E88E5;
+    padding: 1rem 0;
+    border-bottom: 2px solid #1E88E5;
+    margin-bottom: 2rem;
+}
+
+/* Estilos para las tarjetas de libros */
+.libro-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.libro-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.libro-titulo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1E88E5;
+    margin-bottom: 8px;
+}
+
+.libro-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+/* Estilos para botones */
+.btn-primary {
+    background-color: #1E88E5;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #1565C0;
+}
+
+.btn-danger {
+    background-color: #E53935;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-danger:hover {
+    background-color: #D32F2F;
+}
+
+.btn-success {
+    background-color: #43A047;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #388E3C;
+}
+
+/* Estilos para formularios */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #1E88E5;
+    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+}
+
+/* Estilos para la sidebar */
+.sidebar-header {
+    padding: 16px;
+    background-color: #1E88E5;
+    color: white;
+    text-align: center;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.3s;
+}
+
+.sidebar-menu li:hover {
+    background-color: #f5f5f5;
+}
+
+.sidebar-menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+/* Estilos para las alertas */
+.alert-success {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.alert-error {
+    background-color: #F44336;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.alert-warning {
+    background-color: #FF9800;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.alert-info {
+    background-color: #2196F3;
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+/* Tarjetas de usuario */
+.user-card {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #1E88E5;
+    margin-bottom: 1rem;
+}
+
+/* Login container */
+.login-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+}
+
+/* Dashboard metrics */
+.metric-card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1E88E5;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Tablas */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: #1E88E5;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.data-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge-success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #FF9800;
+    color: white;
+}
+
+.badge-error {
+    background-color: #F44336;
+    color: white;
+}
+
+.badge-info {
+    background-color: #2196F3;
+    color: white;
+}
