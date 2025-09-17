@@ -133,7 +133,7 @@ Digitalizar el ciclo completo de la biblioteca para **acelerar la atención**, *
 
 ## ⚙️ Configuración de variables (MySQL, JWT, SMTP y App)
 
-> 💡 **Recomendado**: usar `/.streamlit/secrets.toml` (no lo subas a git).
+> 💡 **Recomendado**: usar `/.streamlit/secrets.toml`.
 
 ```toml
 # 📦 Base de datos MySQL
@@ -160,6 +160,7 @@ MAX_FILE_SIZE_MB = 5
 ALLOWED_IMAGE_EXTENSIONS = "jpg,jpeg,png,gif"
 APP_NAME = "Sistema de Gestión de Biblioteca"
 APP_VERSION = "1.0.0"
+```
 
 ## 📜 Licencia
 MIT License – Ver LICENSE para detalles completos.
