@@ -1,13 +1,30 @@
 # 📚 Sistema de Gestión de Biblioteca
 
-## 🎯 Propósito del proyecto 
+<p align="center">
+  <a href="https://streamlit.io/">
+    <img src="https://img.shields.io/badge/streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit"/>
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python"/>
+  </a>
+  <a href="https://jwt.io/">
+    <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white" alt="JWT"/>
+  </a>
+  <a href="https://www.mysql.com/">
+    <img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
+  </a>
+</p>
+
+## 🎯 Propósito del proyecto
 
 Diseñar e implementar un **sistema web de gestión bibliotecaria** que centralice y automatice los procesos clave —**autenticación por roles, catálogo, préstamos, devoluciones, reservas, sanciones, notificaciones por email, reportes y gráficos**— utilizando **Python + Streamlit** y **MySQL**, con **seguridad JWT**, **PDFs** y **métricas operativas** en tiempo real.
 
 ### Objetivo general
+
 Digitalizar el ciclo completo de la biblioteca para **acelerar la atención**, **reducir errores** e **incrementar la puntualidad de devoluciones**, garantizando **integridad de datos**, **trazabilidad** y **experiencia clara** para administradores, bibliotecarios y usuarios finales (estudiantes/docentes).
 
 ### Objetivos específicos
+
 - **Eficiencia operativa:** registrar préstamos/devoluciones en minutos con validaciones de stock, horario y sanciones.
 - **Prevención de morosidad:** recordatorios y alertas por email (por vencer, vencidos, reservas pendientes).
 - **Calidad del inventario:** bloqueo seguro de eliminaciones con relaciones y control de duplicados (ISBN).
@@ -17,15 +34,17 @@ Digitalizar el ciclo completo de la biblioteca para **acelerar la atención**, *
 - **Despliegue simple:** configuración por `secrets.toml` (MySQL, JWT, SMTP) y plantillas de correo parametrizables.
 
 ### Alcance funcional (versión actual)
+
 - **Incluye:** usuarios/roles, catálogo, préstamos/devoluciones, reservas, sanciones, notificaciones SMTP, reportes PDF, gráficos, perfil de usuario, configuración en vivo.
 - **No incluye (por ahora):** pasarela de pagos de multas, lector físico de códigos de barras, app móvil nativa (el enfoque es **web first**; podría integrarse a futuro).
 
 ### Indicadores de éxito (KPIs sugeridos)
-- ⏱️ **Tiempo medio de atención** por préstamo/devolución.  
-- 📈 **% de devoluciones a tiempo** y **reducción de atrasos** mes a mes.  
-- 📬 **Tasa de apertura** de emails de recordatorio/atraso.  
-- 📚 **Exactitud del inventario** (coincidencia físico–sistema).  
-- 🧑‍💻 **Préstamos/hora por operador** y **errores bloqueados** por reglas.  
+
+- ⏱️ **Tiempo medio de atención** por préstamo/devolución.
+- 📈 **% de devoluciones a tiempo** y **reducción de atrasos** mes a mes.
+- 📬 **Tasa de apertura** de emails de recordatorio/atraso.
+- 📚 **Exactitud del inventario** (coincidencia físico–sistema).
+- 🧑‍💻 **Préstamos/hora por operador** y **errores bloqueados** por reglas.
 
 ---
 
@@ -43,15 +62,18 @@ Digitalizar el ciclo completo de la biblioteca para **acelerar la atención**, *
 ## 👥 Gestión de usuarios
 
 **Admin**
+
 - ➕ Alta de **bibliotecarios**, 🔍 búsqueda, ✅ validar / 🚫 activar-desactivar, 🔁 cambiar rol y 🗑️ eliminar.
 - 🔐 Generación de **contraseñas seguras**.
 - 🧪 Validaciones: **DNI (8 dígitos)**, **nombre (solo letras)**, **username (≥ 4)**.
 
 **Bibliotecario**
+
 - 👩‍🎓 Gestión de **estudiantes y docentes**.
 - 📨 **Valida** cuentas pendientes.
 
 **Usuario (dashboard `usuario.py`)**
+
 - ✏️ Edita **perfil** y consulta **mis préstamos**, **mis reservas**, **mis sanciones**.
 - 🧾 Descarga **reportes personales**.
 
@@ -122,7 +144,7 @@ Digitalizar el ciclo completo de la biblioteca para **acelerar la atención**, *
 - **`utils/email_manager.py`** → SMTP con **TLS**, plantillas **Jinja** o HTML, **envío masivo** y registro en `notificaciones` (si existe).
 - **`utils/image_manager.py`** → Valida **extensión** y **peso**, guarda con nombre único, **elimina** obsoletos, usa **default_cover** si falta.
 - **`utils/reports.py`** → Exportación **PDF** robusta (ReportLab ⚑ / FPDF fallback), encabezados en **español**, fechas **12 h (Lima)**, tablas anchas en **apaisado**.
-- **`database/models.py`** → Esquema: `usuarios`, `libros`, `autores`, `categorias`, `prestamos`, `reservas`, `sanciones`, `configuracion`, `sedes`, `facultades`, `escuelas`, `notificaciones` (+ *seeds*).
+- **`database/models.py`** → Esquema: `usuarios`, `libros`, `autores`, `categorias`, `prestamos`, `reservas`, `sanciones`, `configuracion`, `sedes`, `facultades`, `escuelas`, `notificaciones` (+ _seeds_).
 - **`database/procedures.py`** → Procedimientos:
   - `registrar_prestamo(libro, usuario, operador, cantidad)`
   - `registrar_devolucion(prestamo, estado, observaciones)`
@@ -163,6 +185,7 @@ APP_VERSION = "1.0.0"
 ```
 
 ## 📜 Licencia
+
 MIT License – Ver LICENSE para detalles completos.
 
 Nota: Proyecto desarrollado con fines academicos.
@@ -171,4 +194,4 @@ Nota: Proyecto desarrollado con fines academicos.
 
 1. José Andrés Farro Lagos - Universidad Nacional de Trujillo
 2. Stefany Marisel Pérez Bazán - Universidad Nacional de Trujillo
-3.   **Asesor:** Dr. Juan Pedro Santos Fernández - Universidad Nacional de Trujillo
+3. **Asesor:** Dr. Juan Pedro Santos Fernández - Universidad Nacional de Trujillo
