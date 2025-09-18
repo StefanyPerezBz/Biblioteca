@@ -5,7 +5,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime, date, time as dt_time, timedelta
 from zoneinfo import ZoneInfo
-
+from pathlib import Path
 from src.database.database import DatabaseManager
 from src.utils.alert_utils import show_sweet_alert
 
@@ -131,16 +131,36 @@ def _boton_descarga_pdf(report_id: str, datos: List[Dict], titulo: str):
         return
 
     try:
-        pdf_path = generar_reporte_pdf(report_id, datos, titulo)
-        with open(pdf_path, "rb") as f:
-            pdf_bytes = f.read()
+        res = generar_reporte_pdf(report_id, datos, titulo)
+
+        pdf_bytes: bytes
+        file_name: str = f"{report_id}.pdf"
+
+        if isinstance(res, (bytes, bytearray)):
+            pdf_bytes = bytes(res)
+
+        elif hasattr(res, "read"):
+            try:
+                file_name = getattr(res, "name", file_name)
+            except Exception:
+                pass
+            pdf_bytes = res.read()
+
+        elif isinstance(res, (str, os.PathLike, Path)):
+            p = Path(res)
+            file_name = p.name or file_name
+            with open(p, "rb") as f:
+                pdf_bytes = f.read()
+
+        else:
+            raise TypeError(f"Tipo de retorno no soportado: {type(res)}. Retorna bytes, BytesIO o ruta.")
 
         st.download_button(
             label="Descargar PDF",
             data=pdf_bytes,
-            file_name=os.path.basename(pdf_path),
+            file_name=file_name,
             mime="application/pdf",
-            key=f"dl_{report_id}_{len(datos)}_{hash(titulo) % 10000}"
+            key=f"dl_{report_id}_{len(datos)}_{abs(hash(titulo)) % 10000}"
         )
     except Exception as e:
         show_sweet_alert("❌ Error al generar PDF", str(e), "error")
