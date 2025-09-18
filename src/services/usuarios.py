@@ -182,6 +182,12 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                     is_activo = selected_user_info['activo']
                     current_role = selected_user_info['rol']
 
+                    tiene_activos = _tiene_prestamos_activos(db_manager, user_id_to_act)
+                    rol_bloqueable = str(current_role) in ("bibliotecario", "estudiante", "docente")
+                    bloquear_acciones = rol_bloqueable and tiene_activos
+                    if bloquear_acciones:
+                        st.warning("⛔ Este usuario tiene préstamos activos. Todas las acciones están temporalmente bloqueadas.")
+
                     col1, col2, col3 = st.columns(3)
 
                     with col1:
@@ -193,7 +199,10 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                             key=f"accion_validar_{user_id_to_act}"
                         )
 
-                        if st.button("Aplicar Validación", key=f"apply_validation_{user_id_to_act}"):
+                        if st.button("Aplicar Validación", key=f"apply_validation_{user_id_to_act}", disabled=bloquear_acciones):
+                            if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                                show_sweet_alert("Bloqueado", "No puede modificar validación: el usuario tiene préstamos activos.", "error")
+                                st.stop()
                             new_validado_status = (accion_validar == "Validar")
                             db_manager.execute_query(
                                 "UPDATE usuarios SET validado = %s WHERE user_id = %s",
@@ -212,7 +221,10 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                             key=f"accion_activo_{user_id_to_act}"
                         )
 
-                        if st.button("Aplicar Activación", key=f"apply_activation_{user_id_to_act}"):
+                        if st.button("Aplicar Activación", key=f"apply_activation_{user_id_to_act}", disabled=bloquear_acciones):
+                            if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                                show_sweet_alert("Bloqueado", "No puede activar/desactivar: el usuario tiene préstamos activos.", "error")
+                                st.stop()
                             new_activo_status = (accion_activo == "Activar")
                             db_manager.execute_query(
                                 "UPDATE usuarios SET activo = %s WHERE user_id = %s",
@@ -231,7 +243,10 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                             key=f"rol_select_{user_id_to_act}"
                         )
                         
-                        if st.button("Cambiar Rol", key=f"change_role_{user_id_to_act}"):
+                        if st.button("Cambiar Rol", key=f"change_role_{user_id_to_act}", disabled=bloquear_acciones):
+                            if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                               show_sweet_alert("Bloqueado", "No puede cambiar el rol: el usuario tiene préstamos activos.", "error")
+                               st.stop()
                             db_manager.execute_query(
                                 "UPDATE usuarios SET role = %s WHERE user_id = %s",
                                 (nuevo_rol, user_id_to_act),
@@ -248,7 +263,7 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                             st.session_state[delete_key] = False
                             
                         if not st.session_state[delete_key]:
-                            if st.button("Eliminar Usuario", key=f"delete_user_{user_id_to_act}"):
+                            if st.button("Eliminar Usuario", key=f"delete_user_{user_id_to_act}", disabled=bloquear_acciones):
                                 st.session_state[delete_key] = True
                                 st.rerun()
                         else:
@@ -256,7 +271,10 @@ def gestion_usuarios(db_manager, show_sweet_alert):
                             col_confirm, col_cancel = st.columns(2)
                             
                             with col_confirm:
-                                if st.button("Confirmar Eliminación", key=f"confirm_delete_{user_id_to_act}"):
+                                if st.button("Confirmar Eliminación", key=f"confirm_delete_{user_id_to_act}", disabled=bloquear_acciones):
+                                    if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                                        show_sweet_alert("Bloqueado", "No puede eliminar: el usuario tiene préstamos activos.", "error")
+                                        st.stop()
                                     db_manager.execute_query(
                                         "DELETE FROM usuarios WHERE user_id = %s",
                                         (user_id_to_act,),
@@ -324,6 +342,21 @@ def validar_cuentas(db_manager, show_sweet_alert):
                     show_sweet_alert("Cuenta Rechazada", f"❌ La cuenta de {user['nombre_completo']} ha sido rechazada y desactivada.", "success")
                     st.rerun()
             st.divider()
+
+def _tiene_prestamos_activos(db_manager, user_id: int) -> bool:
+    """
+    True si el usuario aparece en algún préstamo 'activo'
+    como usuario final (usuario_id) o como bibliotecario operador (bibliotecario_id).
+    """
+    q = """
+        SELECT EXISTS(
+            SELECT 1 FROM prestamos
+            WHERE estado = 'activo' AND (usuario_id = %s OR bibliotecario_id = %s)
+        ) AS has_act
+    """
+    r = db_manager.execute_query(q, (int(user_id), int(user_id))) or []
+    v = r[0].get("has_act") if r else 0
+    return bool(v == 1 or str(v).lower() in ("true", "1"))
 
 def gestion_usuarios_bibliotecario(db_manager, show_sweet_alert):
     """
@@ -402,6 +435,12 @@ def gestion_usuarios_bibliotecario(db_manager, show_sweet_alert):
                 is_activo = selected_user_info['activo']
                 current_role = selected_user_info['rol']
 
+                tiene_activos = _tiene_prestamos_activos(db_manager, user_id_to_act)
+                rol_bloqueable = str(current_role) in ("bibliotecario", "estudiante", "docente")
+                bloquear_acciones = rol_bloqueable and tiene_activos
+                if bloquear_acciones:
+                    st.warning("⛔ Este usuario tiene préstamos activos. Todas las acciones están temporalmente bloqueadas.")
+
                 col1, col2, col3 = st.columns(3)
 
                 # Validación
@@ -413,7 +452,10 @@ def gestion_usuarios_bibliotecario(db_manager, show_sweet_alert):
                         index=1 if is_validado else 0,
                         key=f"accion_validar_{user_id_to_act}"
                     )
-                    if st.button("Aplicar Validación", key=f"apply_validation_{user_id_to_act}"):
+                    if st.button("Aplicar Validación", key=f"apply_validation_{user_id_to_act}", disabled=bloquear_acciones):
+                        if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                                show_sweet_alert("Bloqueado", "No puede modificar validación: el usuario tiene préstamos activos.", "error")
+                                st.stop()
                         db_manager.execute_query(
                             "UPDATE usuarios SET validado = %s WHERE user_id = %s",
                             (accion_validar == "Validar", user_id_to_act),
@@ -431,7 +473,10 @@ def gestion_usuarios_bibliotecario(db_manager, show_sweet_alert):
                         index=1 if is_activo else 0,
                         key=f"accion_activo_{user_id_to_act}"
                     )
-                    if st.button("Aplicar Activación", key=f"apply_activation_{user_id_to_act}"):
+                    if st.button("Aplicar Activación", key=f"apply_activation_{user_id_to_act}", disabled=bloquear_acciones):
+                        if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                            show_sweet_alert("Bloqueado", "No puede activar/desactivar: el usuario tiene préstamos activos.", "error")
+                            st.stop()
                         db_manager.execute_query(
                             "UPDATE usuarios SET activo = %s WHERE user_id = %s",
                             (accion_activo == "Activar", user_id_to_act),
@@ -449,7 +494,10 @@ def gestion_usuarios_bibliotecario(db_manager, show_sweet_alert):
                         index=0 if current_role == "estudiante" else 1,
                         key=f"rol_select_{user_id_to_act}"
                     )
-                    if st.button("Cambiar Rol", key=f"change_role_{user_id_to_act}"):
+                    if st.button("Cambiar Rol", key=f"change_role_{user_id_to_act}", disabled=bloquear_acciones):
+                        if _tiene_prestamos_activos(db_manager, user_id_to_act) and rol_bloqueable:
+                            show_sweet_alert("Bloqueado", "No puede cambiar el rol: el usuario tiene préstamos activos.", "error")
+                            st.stop()
                         db_manager.execute_query(
                             "UPDATE usuarios SET role = %s WHERE user_id = %s",
                             (nuevo_rol, user_id_to_act),
